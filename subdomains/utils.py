@@ -9,7 +9,6 @@ from django.conf import settings
 from django.urls import resolve as simple_resolve
 from django.urls import reverse as simple_reverse
 from django.urls import NoReverseMatch, get_resolver
-from django.utils import lru_cache
 
 def current_site_domain():
     from django.contrib.sites.models import Site
@@ -118,7 +117,7 @@ def _real_reverse(viewname, subdomain=None, scheme=None, args=None, kwargs=None,
         raise exc
 
 
-@lru_cache.lru_cache(maxsize=None)
+@functools.lru_cache(maxsize=None)
 def find_subdomain_by_namespace(namespace):
     for subdomain, urlconf in settings.SUBDOMAIN_URLCONFS.items():
         resolver = get_resolver(urlconf)
